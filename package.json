@@ -1,0 +1,65 @@
+{
+  "name": "csproj-version",
+  "version": "0.0.0",
+  "description": "versioning .csproj files in projects under a .NET Standard solution",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "dotver": "./src/script.js"
+  },
+  "scripts": {
+    "upint": "yarn upgrade-interactive --latest",
+    "build": "rollup -c rollup.config.js"
+  },
+  "dependencies": {
+    "commander": "^6.2.0",
+    "semver": "^7.3.2",
+    "xml2js": "^0.4.23",
+    "@palett/says": "^0.5.7",
+    "@spare/deco": "^0.10.6",
+    "@spare/logger": "^0.10.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.6",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.1",
+    "@babel/plugin-proposal-pipeline-operator": "^7.12.1",
+    "@babel/plugin-proposal-private-methods": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/register": "^7.12.1",
+    "@babel/runtime": "^7.12.5",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "rollup": "^2.32.1",
+    "rollup-plugin-fileinfo": "^0.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoyeungw/csproj-version.git"
+  },
+  "keywords": [
+    "rollup-plugin",
+    "rollup",
+    "filesizes"
+  ],
+  "engines": {
+    "node": ">=8.x"
+  },
+  "author": {
+    "name": "Hoyeung Wong",
+    "email": "hoyeungw@outlook.com",
+    "url": "https://github.com/hoyeungw"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hoyeungw/csproj-version.git"
+  },
+  "homepage": "https://github.com/hoyeungw/csproj-version#readme"
+}
