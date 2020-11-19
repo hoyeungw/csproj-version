@@ -1,21 +1,22 @@
 #! /usr/bin/env node
 
-const { deco } = require('@spare/deco')
-const { logger } = require('@spare/logger')
 const { program } = require('commander')
+const { logger, decoString, Xr, ros } = require('@spare/logger')
+const { csprojVersion } = require('..')
 
 program
   .option('-r, --release <release>', 'release type', 'patch')
-  .option('-d, --directory <directory>', 'directory', './')
+  .option('-d, --directory <directory>', 'directory')
   .option('-v, --verbose', 'show info', false)
 
 program.parse(process.argv)
+
+logger(
+  Xr(ros('dotver'))
+    .directory(decoString(program.directory ?? process.cwd()))
+    .release(program.release),
+  '\n'
+)
 // if (program.release) console.log(program.opts())
-if (program.release) logger(deco(program.release));
 
-// console.log(process.cwd())
-
-(async function () {
-  await require('..')
-    .csprojVersion(program.directory, { release: program.release })
-})()
+csprojVersion(program.directory, { release: program.release }).then()

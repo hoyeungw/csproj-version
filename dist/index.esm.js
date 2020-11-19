@@ -58,27 +58,27 @@ const csprojVersion = async (dir = process.cwd(), {
       suffix: 'csproj'
     });
     if (files === null || files === void 0 ? void 0 : files.length) for (let file of files) {
-      var _ref, _file, _jsonData$Project, _ref3;
+      var _ros, _jsonData$Project, _ref2;
 
       const logger = says[path.basename(file)].asc;
-      _ref = (_file = file, deco(_file)), says['Versioning'](_ref);
+      _ros = ros(path.basename(file)), says['Versioning'](_ros);
       const xmlData = await promises.readFile(file);
       const jsonData = await parser.parseStringPromise(xmlData); // jsonData |> Deco({ vert: 3 }) |> logger
 
       const propertyGroup = jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$Project = jsonData.Project) === null || _jsonData$Project === void 0 ? void 0 : _jsonData$Project.PropertyGroup;
 
       for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key) && (key === null || key === void 0 ? void 0 : key.endsWith('Version'))) {
-        var _ref2, _Xr$ros$release;
+        var _ref, _Xr$ros$release;
 
         const prev = propertyGroup[key];
         const curr = semver.inc(prev, release);
-        _ref2 = (_Xr$ros$release = Xr()[ros(key)](prev)[release](curr), deco(_Xr$ros$release)), logger(_ref2);
+        _ref = (_Xr$ros$release = Xr()[ros(key)](prev)[release](curr), deco(_Xr$ros$release)), logger(_ref);
         propertyGroup[key] = curr;
       }
 
       const currXmlData = builder.buildObject(jsonData);
       await promises.writeFile(file, currXmlData);
-      _ref3 = '', console.log(_ref3);
+      _ref2 = '', console.log(_ref2);
     }
   }
 };

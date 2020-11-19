@@ -18,7 +18,7 @@ export const csprojVersion = async (dir = process.cwd(),
     if (files?.length)
       for (let file of files) {
         const logger = says[path.basename(file)].asc
-        file |> deco |> says['Versioning']
+        ros(path.basename(file)) |> says['Versioning']
         const xmlData = await promises.readFile(file)
         const jsonData = await parser.parseStringPromise(xmlData)
         // jsonData |> Deco({ vert: 3 }) |> logger
