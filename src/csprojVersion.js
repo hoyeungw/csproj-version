@@ -22,6 +22,7 @@ export const csprojVersion = async (
 ) => {
   const folders = await readFolders(dir, { fullPath: true, prefix, ignores })
   for (const folder of folders) {
+    let modified = false
     const files = await readFiles(folder, { fullPath: true, suffix: 'csproj' })
     if (files?.length)
       for (let file of files) {
@@ -32,14 +33,17 @@ export const csprojVersion = async (
         // jsonData |> Deco({ vert: 3 }) |> logger
         const propertyGroup = jsonData?.Project?.PropertyGroup
         for (let key in propertyGroup)
-          if (propertyGroup.hasOwnProperty(key) && key?.endsWith('Version')) {
+          if (propertyGroup.hasOwnProperty(key) && key?.endsWith('Version') && (modified = true)) {
             const prev = propertyGroup[key]
             const curr = semver.inc(prev, release)
             Xr()[ros(key)](prev)[release](curr) |> deco |> logger
             propertyGroup[key] = curr
           }
-        const currXmlData = builder.buildObject(jsonData)
-        if (!simulate) await promises.writeFile(file, currXmlData)
+        if (modified && !simulate) {
+          const currXmlData = builder.buildObject(jsonData)
+          await promises.writeFile(file, currXmlData)
+          ros(path.basename(file)) |> says['Modified'].br(date() + ' ' + time())
+        }
         '' |> console.log
       }
   }

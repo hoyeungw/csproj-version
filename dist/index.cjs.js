@@ -65,6 +65,7 @@ const csprojVersion = async (dir = process.cwd(), {
   });
 
   for (const folder of folders) {
+    let modified = false;
     const files = await readFiles(folder, {
       fullPath: true,
       suffix: 'csproj'
@@ -79,7 +80,7 @@ const csprojVersion = async (dir = process.cwd(), {
 
       const propertyGroup = jsonData === null || jsonData === void 0 ? void 0 : (_jsonData$Project = jsonData.Project) === null || _jsonData$Project === void 0 ? void 0 : _jsonData$Project.PropertyGroup;
 
-      for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key) && (key === null || key === void 0 ? void 0 : key.endsWith('Version'))) {
+      for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key) && (key === null || key === void 0 ? void 0 : key.endsWith('Version')) && (modified = true)) {
         var _ref, _Xr$ros$release;
 
         const prev = propertyGroup[key];
@@ -88,8 +89,14 @@ const csprojVersion = async (dir = process.cwd(), {
         propertyGroup[key] = curr;
       }
 
-      const currXmlData = builder.buildObject(jsonData);
-      if (!simulate) await fs.promises.writeFile(file, currXmlData);
+      if (modified && !simulate) {
+        var _ros2;
+
+        const currXmlData = builder.buildObject(jsonData);
+        await fs.promises.writeFile(file, currXmlData);
+        _ros2 = says.ros(path__default['default'].basename(file)), says.says['Modified'].br(timestampPretty.date() + ' ' + timestampPretty.time())(_ros2);
+      }
+
       _ref2 = '', console.log(_ref2);
     }
   }
