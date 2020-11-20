@@ -1,6 +1,6 @@
 {
   "name": "csproj-version",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "versioning .csproj files in projects under a .NET Standard solution",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
