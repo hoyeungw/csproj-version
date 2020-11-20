@@ -5,6 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var says = require('@palett/says');
 var deco = require('@spare/deco');
 var logger = require('@spare/logger');
+var timestampPretty = require('@valjoux/timestamp-pretty');
 var fs = require('fs');
 var path = require('path');
 var semver = require('semver');
@@ -54,7 +55,8 @@ const builder = new xml2js__default['default'].Builder();
 const csprojVersion = async (dir = process.cwd(), {
   prefix,
   ignores,
-  release = 'patch'
+  release = 'patch',
+  simulate = false
 } = {}) => {
   const folders = await readFolders(dir, {
     fullPath: true,
@@ -71,7 +73,7 @@ const csprojVersion = async (dir = process.cwd(), {
       var _ros, _jsonData$Project, _ref2;
 
       const logger$1 = says.says[path__default['default'].basename(file)].asc;
-      _ros = says.ros(path__default['default'].basename(file)), says.says['Versioning'](_ros);
+      _ros = says.ros(path__default['default'].basename(file)), says.says['Versioning'].br(timestampPretty.date() + ' ' + timestampPretty.time())(_ros);
       const xmlData = await fs.promises.readFile(file);
       const jsonData = await parser.parseStringPromise(xmlData); // jsonData |> Deco({ vert: 3 }) |> logger
 
@@ -87,7 +89,7 @@ const csprojVersion = async (dir = process.cwd(), {
       }
 
       const currXmlData = builder.buildObject(jsonData);
-      await fs.promises.writeFile(file, currXmlData);
+      if (!simulate) await fs.promises.writeFile(file, currXmlData);
       _ref2 = '', console.log(_ref2);
     }
   }

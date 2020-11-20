@@ -1,6 +1,7 @@
 import { says, ros } from '@palett/says';
 import { deco } from '@spare/deco';
 import { Xr } from '@spare/logger';
+import { date, time } from '@valjoux/timestamp-pretty';
 import { promises } from 'fs';
 import path from 'path';
 import semver from 'semver';
@@ -44,7 +45,8 @@ const builder = new xml2js.Builder();
 const csprojVersion = async (dir = process.cwd(), {
   prefix,
   ignores,
-  release = 'patch'
+  release = 'patch',
+  simulate = false
 } = {}) => {
   const folders = await readFolders(dir, {
     fullPath: true,
@@ -61,7 +63,7 @@ const csprojVersion = async (dir = process.cwd(), {
       var _ros, _jsonData$Project, _ref2;
 
       const logger = says[path.basename(file)].asc;
-      _ros = ros(path.basename(file)), says['Versioning'](_ros);
+      _ros = ros(path.basename(file)), says['Versioning'].br(date() + ' ' + time())(_ros);
       const xmlData = await promises.readFile(file);
       const jsonData = await parser.parseStringPromise(xmlData); // jsonData |> Deco({ vert: 3 }) |> logger
 
@@ -77,7 +79,7 @@ const csprojVersion = async (dir = process.cwd(), {
       }
 
       const currXmlData = builder.buildObject(jsonData);
-      await promises.writeFile(file, currXmlData);
+      if (!simulate) await promises.writeFile(file, currXmlData);
       _ref2 = '', console.log(_ref2);
     }
   }

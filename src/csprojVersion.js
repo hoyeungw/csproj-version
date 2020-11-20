@@ -1,6 +1,7 @@
 import { ros, says }              from '@palett/says'
 import { deco }                   from '@spare/deco'
 import { Xr }                     from '@spare/logger'
+import { date, time }             from '@valjoux/timestamp-pretty'
 import { promises }               from 'fs'
 import path                       from 'path'
 import semver                     from 'semver'
@@ -10,15 +11,22 @@ import { readFiles, readFolders } from './reader'
 const parser = new xml2js.Parser({ explicitArray: false })
 const builder = new xml2js.Builder()
 
-export const csprojVersion = async (dir = process.cwd(),
-                                    { prefix, ignores, release = 'patch' } = {}) => {
+export const csprojVersion = async (
+  dir = process.cwd(),
+  {
+    prefix,
+    ignores,
+    release = 'patch',
+    simulate = false
+  } = {}
+) => {
   const folders = await readFolders(dir, { fullPath: true, prefix, ignores })
   for (const folder of folders) {
     const files = await readFiles(folder, { fullPath: true, suffix: 'csproj' })
     if (files?.length)
       for (let file of files) {
         const logger = says[path.basename(file)].asc
-        ros(path.basename(file)) |> says['Versioning']
+        ros(path.basename(file)) |> says['Versioning'].br(date() + ' ' + time())
         const xmlData = await promises.readFile(file)
         const jsonData = await parser.parseStringPromise(xmlData)
         // jsonData |> Deco({ vert: 3 }) |> logger
@@ -31,7 +39,7 @@ export const csprojVersion = async (dir = process.cwd(),
             propertyGroup[key] = curr
           }
         const currXmlData = builder.buildObject(jsonData)
-        await promises.writeFile(file, currXmlData)
+        if (!simulate) await promises.writeFile(file, currXmlData)
         '' |> console.log
       }
   }
