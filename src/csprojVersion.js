@@ -1,50 +1,61 @@
 import { ros, says }              from '@palett/says'
 import { deco }                   from '@spare/deco'
-import { Xr }                     from '@spare/logger'
+import { decoString, Xr }         from '@spare/logger'
 import { date, time }             from '@valjoux/timestamp-pretty'
 import { promises }               from 'fs'
-import path                       from 'path'
+import { basename as base }       from 'path'
 import semver                     from 'semver'
 import xml2js                     from 'xml2js'
 import { readFiles, readFolders } from './reader'
 
-const parser = new xml2js.Parser({ explicitArray: false })
+
+const parser = new xml2js.Parser({explicitArray: false})
 const builder = new xml2js.Builder()
 
+/**
+ *
+ * @param {string} [dir]
+ * @param {string} [prefix]
+ * @param {RegExp} [omit]
+ * @param {string} [release]
+ * @param {boolean} [simulate]
+ * @returns {Promise<void>}
+ */
 export const csprojVersion = async (
   dir = process.cwd(),
   {
     prefix,
-    ignores,
+    omit,
     release = 'patch',
     simulate = false
   } = {}
 ) => {
-  const folders = await readFolders(dir, { fullPath: true, prefix, ignores })
+  const folders = await readFolders(dir, {fullPath: true, prefix})
   for (const folder of folders) {
+    if (omit?.test(folder)) {
+      ros(base(folder)) |> says['Skipped'].br(date() + ' ' + time())
+      continue
+    }
     let modified = false
-    const files = await readFiles(folder, { fullPath: true, suffix: 'csproj' })
-    if (files?.length)
-      for (let file of files) {
-        const logger = says[path.basename(file)].asc
-        ros(path.basename(file)) |> says['Versioning'].br(date() + ' ' + time())
-        const xmlData = await promises.readFile(file)
-        const jsonData = await parser.parseStringPromise(xmlData)
-        // jsonData |> Deco({ vert: 3 }) |> logger
-        const propertyGroup = jsonData?.Project?.PropertyGroup
-        for (let key in propertyGroup)
-          if (propertyGroup.hasOwnProperty(key) && key?.endsWith('Version') && (modified = true)) {
-            const prev = propertyGroup[key]
-            const curr = semver.inc(prev, release)
-            Xr()[ros(key)](prev)[release](curr) |> deco |> logger
-            propertyGroup[key] = curr
-          }
-        if (modified && !simulate) {
-          const currXmlData = builder.buildObject(jsonData)
-          await promises.writeFile(file, currXmlData)
-          ros(path.basename(file)) |> says['Modified'].br(date() + ' ' + time())
+    const files = await readFiles(folder, {fullPath: true, suffix: 'csproj'})
+    for (let file of files) {
+      const logger = says[base(file)].asc
+      ros(base(file)) |> says['Versioning'].br(date() + ' ' + time())
+      const json = await parser.parseStringPromise(await promises.readFile(file)) // json |> Deco({ vert: 3 }) |> logger
+      const propertyGroup = json?.Project?.PropertyGroup
+      for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key))
+        if (key?.endsWith('Version') && (modified = true)) {
+          const
+            prev = propertyGroup[key],
+            curr = semver.inc(prev, release)
+          Xr()[decoString("PropertyGroup." + key)](prev)[release](curr) |> deco |> logger
+          propertyGroup[key] = curr
         }
-        '' |> console.log
+      if (modified && !simulate) {
+        await promises.writeFile(file, builder.buildObject(json))
+        ros(base(file)) |> says['Modified'].br(date() + ' ' + time())
       }
+      '' |> console.log
+    }
   }
 }
