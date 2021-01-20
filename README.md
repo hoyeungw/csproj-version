@@ -32,12 +32,17 @@
 
 #### Install
 ```console
-$ npm i -d csproj-version
+# via npm
+npm install -d csproj-version
+# or via yarn
+yarn global add csproj-version
 ```
 
 #### Usage
 ```console
-
+# got project directory,
+# then
+dotver
 ```
 
 #### Requirement
