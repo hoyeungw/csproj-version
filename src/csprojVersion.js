@@ -9,13 +9,14 @@ import xml2js                     from 'xml2js'
 import { readFiles, readFolders } from './reader'
 
 
-const parser = new xml2js.Parser({explicitArray: false})
+const parser = new xml2js.Parser({ explicitArray: false })
 const builder = new xml2js.Builder()
 
 /**
  *
  * @param {string} [dir]
  * @param {string} [prefix]
+ * @param {string} [suffix]
  * @param {RegExp} [omit]
  * @param {string} [release]
  * @param {boolean} [simulate]
@@ -25,19 +26,20 @@ export const csprojVersion = async (
   dir = process.cwd(),
   {
     prefix,
+    suffix = 'csproj',
     omit,
     release = 'patch',
     simulate = false
   } = {}
 ) => {
-  const folders = await readFolders(dir, {fullPath: true, prefix})
+  const folders = await readFolders(dir, { fullPath: true, prefix })
   for (const folder of folders) {
     if (omit?.test(folder)) {
       ros(base(folder)) |> says['Skipped'].br(date() + ' ' + time())
       continue
     }
     let modified = false
-    const files = await readFiles(folder, {fullPath: true, suffix: 'csproj'})
+    const files = await readFiles(folder, { fullPath: true, suffix: suffix })
     for (let file of files) {
       const logger = says[base(file)].asc
       ros(base(file)) |> says['Versioning'].br(date() + ' ' + time())

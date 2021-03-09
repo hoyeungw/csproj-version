@@ -65,6 +65,7 @@ const builder = new xml2js__default['default'].Builder();
  *
  * @param {string} [dir]
  * @param {string} [prefix]
+ * @param {string} [suffix]
  * @param {RegExp} [omit]
  * @param {string} [release]
  * @param {boolean} [simulate]
@@ -73,6 +74,7 @@ const builder = new xml2js__default['default'].Builder();
 
 const csprojVersion = async (dir = process.cwd(), {
   prefix,
+  suffix = 'csproj',
   omit,
   release = 'patch',
   simulate = false
@@ -93,7 +95,7 @@ const csprojVersion = async (dir = process.cwd(), {
     let modified = false;
     const files = await readFiles(folder, {
       fullPath: true,
-      suffix: 'csproj'
+      suffix: suffix
     });
 
     for (let file of files) {
