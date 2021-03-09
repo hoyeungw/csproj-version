@@ -86,9 +86,10 @@ const csprojVersion = async (dir = process.cwd(), {
 
   for (const folder of folders) {
     if (omit !== null && omit !== void 0 && omit.test(folder)) {
-      var _ros;
+      var _ros, _ref;
 
       _ros = says.ros(path.basename(folder)), says.says['Skipped'].br(timestampPretty.date() + ' ' + timestampPretty.time())(_ros);
+      _ref = '', console.log(_ref);
       continue;
     }
 
@@ -99,20 +100,20 @@ const csprojVersion = async (dir = process.cwd(), {
     });
 
     for (let file of files) {
-      var _ros2, _json$Project, _ref2;
+      var _ros2, _json$Project, _ref3;
 
       const logger$1 = says.says[path.basename(file)].asc;
-      _ros2 = says.ros(path.basename(file)), says.says['Versioning'].br(timestampPretty.date() + ' ' + timestampPretty.time())(_ros2);
+      _ros2 = says.ros(path.basename(file)), says.says['Version'].br(timestampPretty.date() + ' ' + timestampPretty.time())(_ros2);
       const json = await parser.parseStringPromise(await fs.promises.readFile(file)); // json |> Deco({ vert: 3 }) |> logger
 
       const propertyGroup = json === null || json === void 0 ? void 0 : (_json$Project = json.Project) === null || _json$Project === void 0 ? void 0 : _json$Project.PropertyGroup;
 
       for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key)) if (key !== null && key !== void 0 && key.endsWith('Version') && (modified = true)) {
-        var _ref, _Xr$decoString$releas;
+        var _ref2, _Xr$decoString$releas;
 
         const prev = propertyGroup[key],
               curr = semver__default['default'].inc(prev, release);
-        _ref = (_Xr$decoString$releas = logger.Xr()[logger.decoString("PropertyGroup." + key)](prev)[release](curr), deco.deco(_Xr$decoString$releas)), logger$1(_ref);
+        _ref2 = (_Xr$decoString$releas = logger.Xr()[logger.decoString("PropertyGroup." + key)](prev)[release](curr), deco.deco(_Xr$decoString$releas)), logger$1(_ref2);
         propertyGroup[key] = curr;
       }
 
@@ -123,7 +124,7 @@ const csprojVersion = async (dir = process.cwd(), {
         _ros3 = says.ros(path.basename(file)), says.says['Modified'].br(timestampPretty.date() + ' ' + timestampPretty.time())(_ros3);
       }
 
-      _ref2 = '', console.log(_ref2);
+      _ref3 = '', console.log(_ref3);
     }
   }
 };

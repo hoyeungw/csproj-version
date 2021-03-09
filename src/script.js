@@ -26,7 +26,7 @@ const { csprojVersion } = require('..');
     await csprojVersion(
       opts.directory,
       {
-        suffix: opts.suffix,
+        suffix: suffix,
         release: opts.release,
         simulate: opts.simulate,
         omit: RegExp(opts.omit, 'i')

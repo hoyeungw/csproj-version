@@ -36,13 +36,14 @@ export const csprojVersion = async (
   for (const folder of folders) {
     if (omit?.test(folder)) {
       ros(base(folder)) |> says['Skipped'].br(date() + ' ' + time())
+      '' |> console.log
       continue
     }
     let modified = false
     const files = await readFiles(folder, { fullPath: true, suffix: suffix })
     for (let file of files) {
       const logger = says[base(file)].asc
-      ros(base(file)) |> says['Versioning'].br(date() + ' ' + time())
+      ros(base(file)) |> says['Version'].br(date() + ' ' + time())
       const json = await parser.parseStringPromise(await promises.readFile(file)) // json |> Deco({ vert: 3 }) |> logger
       const propertyGroup = json?.Project?.PropertyGroup
       for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key))

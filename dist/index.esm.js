@@ -77,9 +77,10 @@ const csprojVersion = async (dir = process.cwd(), {
 
   for (const folder of folders) {
     if (omit !== null && omit !== void 0 && omit.test(folder)) {
-      var _ros;
+      var _ros, _ref;
 
       _ros = ros(basename(folder)), says['Skipped'].br(date() + ' ' + time())(_ros);
+      _ref = '', console.log(_ref);
       continue;
     }
 
@@ -90,20 +91,20 @@ const csprojVersion = async (dir = process.cwd(), {
     });
 
     for (let file of files) {
-      var _ros2, _json$Project, _ref2;
+      var _ros2, _json$Project, _ref3;
 
       const logger = says[basename(file)].asc;
-      _ros2 = ros(basename(file)), says['Versioning'].br(date() + ' ' + time())(_ros2);
+      _ros2 = ros(basename(file)), says['Version'].br(date() + ' ' + time())(_ros2);
       const json = await parser.parseStringPromise(await promises.readFile(file)); // json |> Deco({ vert: 3 }) |> logger
 
       const propertyGroup = json === null || json === void 0 ? void 0 : (_json$Project = json.Project) === null || _json$Project === void 0 ? void 0 : _json$Project.PropertyGroup;
 
       for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key)) if (key !== null && key !== void 0 && key.endsWith('Version') && (modified = true)) {
-        var _ref, _Xr$decoString$releas;
+        var _ref2, _Xr$decoString$releas;
 
         const prev = propertyGroup[key],
               curr = semver.inc(prev, release);
-        _ref = (_Xr$decoString$releas = Xr()[decoString("PropertyGroup." + key)](prev)[release](curr), deco(_Xr$decoString$releas)), logger(_ref);
+        _ref2 = (_Xr$decoString$releas = Xr()[decoString("PropertyGroup." + key)](prev)[release](curr), deco(_Xr$decoString$releas)), logger(_ref2);
         propertyGroup[key] = curr;
       }
 
@@ -114,7 +115,7 @@ const csprojVersion = async (dir = process.cwd(), {
         _ros3 = ros(basename(file)), says['Modified'].br(date() + ' ' + time())(_ros3);
       }
 
-      _ref2 = '', console.log(_ref2);
+      _ref3 = '', console.log(_ref3);
     }
   }
 };
