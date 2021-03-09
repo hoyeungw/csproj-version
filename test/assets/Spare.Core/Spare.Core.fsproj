@@ -2,12 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageVersion>0.0.89</PackageVersion>
+    <PackageVersion>0.0.90</PackageVersion>
     <Title>Spare.Core</Title>
     <Authors>Hoyeung Wong</Authors>
     <Description>stringify enumerables</Description>
-    <AssemblyVersion>0.0.89</AssemblyVersion>
-    <FileVersion>0.0.89</FileVersion>
-    <Version>0.0.89</Version>
+    <AssemblyVersion>0.0.90</AssemblyVersion>
+    <FileVersion>0.0.90</FileVersion>
+    <Version>0.0.90</Version>
   </PropertyGroup>
 </Project>
