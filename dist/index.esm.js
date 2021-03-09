@@ -74,7 +74,7 @@ const csprojVersion = async (dir = process.cwd(), {
   });
 
   for (const folder of folders) {
-    if (omit === null || omit === void 0 ? void 0 : omit.test(folder)) {
+    if (omit !== null && omit !== void 0 && omit.test(folder)) {
       var _ros;
 
       _ros = ros(basename(folder)), says['Skipped'].br(date() + ' ' + time())(_ros);
@@ -96,7 +96,7 @@ const csprojVersion = async (dir = process.cwd(), {
 
       const propertyGroup = json === null || json === void 0 ? void 0 : (_json$Project = json.Project) === null || _json$Project === void 0 ? void 0 : _json$Project.PropertyGroup;
 
-      for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key)) if ((key === null || key === void 0 ? void 0 : key.endsWith('Version')) && (modified = true)) {
+      for (let key in propertyGroup) if (propertyGroup.hasOwnProperty(key)) if (key !== null && key !== void 0 && key.endsWith('Version') && (modified = true)) {
         var _ref, _Xr$decoString$releas;
 
         const prev = propertyGroup[key],

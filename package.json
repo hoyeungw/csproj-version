@@ -12,14 +12,15 @@
   },
   "scripts": {
     "upint": "yarn upgrade-interactive --latest",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "test": "./src/script.js -d test/assets"
   },
   "dependencies": {
     "@palett/says": "^0.5.7",
     "@spare/deco": "^0.10.6",
     "@spare/logger": "^0.10.6",
     "@valjoux/timestamp-pretty": "^0.2.2",
-    "commander": "^6.2.0",
+    "commander": "^7.1.0",
     "semver": "^7.3.2",
     "xml2js": "^0.4.23"
   },
@@ -36,8 +37,8 @@
     "@babel/register": "^7.12.1",
     "@babel/runtime": "^7.12.5",
     "@rollup/plugin-babel": "^5.2.1",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.0",
     "rollup": "^2.32.1",
     "rollup-plugin-fileinfo": "^0.2.4"
   },
