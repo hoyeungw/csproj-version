@@ -5,15 +5,16 @@
   "type": "module",
   "exports": "./dist/index.js",
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
   "bin": {
-    "dotver": "./src/script.js"
+    "dotver": "./bin/dotver.js"
   },
   "scripts": {
     "upint": "pnpm up -i -r --latest",
     "build": "rollup -c rollup.config.js",
-    "test": "./src/script.js -d test/assets"
+    "test": "./bin/dotver.js -d test/assets"
   },
   "dependencies": {
     "@spare/says": "^0.16.1",

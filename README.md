@@ -7,7 +7,6 @@
 [![npm version][badge-npm-version]][url-npm]
 [![npm download monthly][badge-npm-download-monthly]][url-npm]
 [![npm download total][badge-npm-download-total]][url-npm]
-[![npm dependents][badge-npm-dependents]][url-github]
 [![npm license][badge-npm-license]][url-npm]
 [![pp install size][badge-pp-install-size]][url-pp]
 [![github commit last][badge-github-last-commit]][url-github]
@@ -17,7 +16,6 @@
 [badge-npm-version]: https://flat.badgen.net/npm/v/csproj-version
 [badge-npm-download-monthly]: https://flat.badgen.net/npm/dm/csproj-version
 [badge-npm-download-total]:https://flat.badgen.net/npm/dt/csproj-version
-[badge-npm-dependents]: https://flat.badgen.net/npm/dependents/csproj-version
 [badge-npm-license]: https://flat.badgen.net/npm/license/csproj-version
 [badge-pp-install-size]: https://flat.badgen.net/packagephobia/install/csproj-version
 [badge-github-last-commit]: https://flat.badgen.net/github/last-commit/hoyeungw/csproj-version
