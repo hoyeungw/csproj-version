@@ -1,9 +1,9 @@
 {
   "name": "csproj-version",
-  "version": "0.0.10",
-  "description": "versioning .csproj files in projects under a .NET Standard solution",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "version": "0.1.0",
+  "description": "versioning .csproj files in projects under a .NET solution",
+  "type": "module",
+  "exports": "./dist/index.js",
   "files": [
     "dist"
   ],
@@ -11,36 +11,23 @@
     "dotver": "./src/script.js"
   },
   "scripts": {
-    "upint": "yarn upgrade-interactive",
+    "upint": "pnpm up -i -r --latest",
     "build": "rollup -c rollup.config.js",
     "test": "./src/script.js -d test/assets"
   },
   "dependencies": {
-    "@palett/says": "^0.5.10",
-    "@spare/deco": "^0.10.8",
-    "@spare/logger": "^0.10.8",
-    "@valjoux/timestamp-pretty": "^0.2.2",
-    "commander": "^7.1.0",
+    "@spare/says": "^0.16.1",
+    "@spare/deco": "^0.16.1",
+    "@spare/logger": "^0.16.1",
+    "@valjoux/timestamp-pretty": "^0.4.0",
+    "commander": "^12.1.0",
     "semver": "^7.3.4",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "@babel/node": "^7.13.10",
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
-    "@babel/plugin-proposal-optional-chaining": "^7.13.8",
-    "@babel/plugin-proposal-pipeline-operator": "^7.12.13",
-    "@babel/plugin-proposal-private-methods": "^7.13.0",
-    "@babel/plugin-transform-runtime": "^7.13.10",
-    "@babel/preset-env": "^7.13.10",
-    "@babel/register": "^7.13.8",
-    "@babel/runtime": "^7.13.10",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@rollup/plugin-node-resolve": "^11.2.0",
-    "rollup": "^2.41.0",
-    "rollup-plugin-fileinfo": "^0.2.5"
+    "@rollup/plugin-json": "^6.1.0",
+    "rollup": "^4.24.3",
+    "rollup-plugin-fileinfo": "^0.3.8"
   },
   "repository": {
     "type": "git",
@@ -52,7 +39,7 @@
     "filesizes"
   ],
   "engines": {
-    "node": ">=8.x"
+    "node": ">=20.0.0"
   },
   "author": {
     "name": "Hoyeung Wong",
