@@ -1,1 +1,1 @@
-export { csprojVersion } from './src/csprojVersion'
+export { csprojVersion } from './src/csprojVersion.js'
